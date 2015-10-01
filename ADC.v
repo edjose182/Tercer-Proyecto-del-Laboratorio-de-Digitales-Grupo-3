@@ -67,7 +67,9 @@ always @*
 			if(~CS)
 				begin
 				state_next = Recibir;
-					n_next = 4'd0;
+				n_next = 4'd0;
+
+				b_next={b_reg[14:0],SDATA};
 				end
 
 			else state_next = DetectaCS;
@@ -76,7 +78,7 @@ always @*
 		Recibir :
 			begin
 				b_next = {b_reg [14:0], SDATA}; /// se llena registro desplazamiento
-				if(n_reg == 4'd15)
+				if(n_reg == 4'd14)
 					state_next = Carga;
 				else 
 					n_next = n_reg + 4'd1;
