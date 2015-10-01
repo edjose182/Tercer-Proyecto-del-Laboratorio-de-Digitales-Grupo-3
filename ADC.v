@@ -103,6 +103,8 @@ always @(posedge clk_Nexys, posedge reset)    /////Aqui se inicializan los estad
 
 		end
 
+//Primera Prueba de control de versiones
+
 ///Parte combinacional
 
 always @*
@@ -163,3 +165,5 @@ begin
 
 
 endmodule
+
+//Primera Prueba de control de versiones
