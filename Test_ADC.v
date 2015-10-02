@@ -4,15 +4,15 @@
 // Company: 
 // Engineer:
 //
-// Create Date:   23:45:50 09/27/2015
-// Design Name:   ADC_3
-// Module Name:   C:/Users/WIN8/Desktop/Pruebas_Tercer_proyecto_Digitales/Pruebas_Tercer_Proyecto/Test_ADCMarkIII.v
-// Project Name:  Pruebas_Tercer_Proyecto
+// Create Date:   17:32:15 09/30/2015
+// Design Name:   ADC3
+// Module Name:   C:/Users/WIN8/Desktop/Pruebas del ADC/Pruebas_ADC/Test_ADC3.v
+// Project Name:  Pruebas_ADC
 // Target Device:  
 // Tool versions:  
 // Description: 
 //
-// Verilog Test Fixture created by ISE for module: ADC_3
+// Verilog Test Fixture created by ISE for module: ADC3
 //
 // Dependencies:
 // 
@@ -22,88 +22,77 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module Test_ADCMarkIII;
+module Test_ADC3;
 
 	// Inputs
-	reg SCLK;
+	reg SDATA;
 	reg reset;
-	reg ADCdata;
-	reg rx_en;
-	reg temp_finish;
-
+	reg CS;
+	reg SCLK;
 
 	// Outputs
-	wire En_temp;
 	wire rx_done_tick;
 	wire [15:0] b_reg;
-	wire [11:0] data_out;
-	wire CS;
+	wire [11:0] data_Out;
 
 	// Instantiate the Unit Under Test (UUT)
-	ADC_3 uut (
-		.SCLK(SCLK), 
+	ADC3 uut (
+		.SDATA(SDATA), 
 		.reset(reset), 
-		.ADCdata(ADCdata), 
-		.rx_en(rx_en), 
-		.temp_finish(temp_finish), 
-		.En_temp(En_temp), 
+		.CS(CS), 
+		.SCLK(SCLK), 
 		.rx_done_tick(rx_done_tick), 
 		.b_reg(b_reg), 
-		.data_out(data_out), 
-		.CS(CS)
+		.data_Out(data_Out)
 	);
-
-		integer i,j;
+	integer i,j;
 	reg [15:0] datos_txt;
 	reg [15:0] Memoria [0:15];
-	reg enable_timer;
 	initial begin
-		// Initialize Inputs
-		SCLK= 0;
-		reset = 1;
-		temp_finish=0;
-		ADCdata = 0;
-		rx_en = 1;
-		enable_timer=0;
-		$readmemb("Datos_MarkV.txt",Memoria);
-	repeat(5) @(posedge SCLK)
+	
+	SCLK=1;
+	CS=0;
+	reset=1;
+	datos_txt=Memoria[0];
+	SDATA= datos_txt[15];
+	$readmemb("Datos_MarkV",Memoria);
+	
+	repeat(5) @(negedge SCLK)
+	
 		reset=0;
+		
 	end
-
+	
 	initial begin
-		@(negedge reset, posedge SCLK)
+		@(negedge reset, negedge SCLK)
 			for(j=0;j<16;j=j+1)
 				begin
 				datos_txt=Memoria[j];
 
-				repeat(32)@(posedge SCLK)
-				enable_timer=1;
-			for (i=0;i==15;i=i+1)
+			for (i=0;i<16;i=i+1)
 				begin
 
-				@(posedge SCLK)
-				ADCdata=datos_txt[i];
+				@(negedge SCLK)
+				SDATA = datos_txt[15-i];
 				end
-			ADCdata=1;
-			enable_timer=0;
-
-				end
-
-		end
-
-initial begin
-	@(posedge enable_timer)
-	while(enable_timer)
-	#22700 temp_finish=~temp_finish;
+		SDATA=1;
+		
+			end
+			
 	end
 
 initial forever begin
 
-#709 SCLK =~SCLK;
+#515 SCLK =~SCLK;
 
-end
+end	
+
+initial forever begin
+
+#22700 CS =~CS;
+
+end	
+	
       
 endmodule
-      
-
 
