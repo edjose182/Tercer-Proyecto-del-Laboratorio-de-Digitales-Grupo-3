@@ -4,15 +4,15 @@
 // Company: 
 // Engineer:
 //
-// Create Date:   08:05:46 10/03/2015
-// Design Name:   PWM_MarkI
-// Module Name:   C:/Users/WIN8/Desktop/Pruebas_Tercer_proyecto_Digitales/Pruebas_Tercer_Proyecto/Test_PWM.v
+// Create Date:   08:54:17 10/03/2015
+// Design Name:   PWMVersion2
+// Module Name:   C:/Users/WIN8/Desktop/Pruebas_Tercer_proyecto_Digitales/Pruebas_Tercer_Proyecto/Test_PWMVersion2.v
 // Project Name:  Pruebas_Tercer_Proyecto
 // Target Device:  
 // Tool versions:  
 // Description: 
 //
-// Verilog Test Fixture created by ISE for module: PWM_MarkI
+// Verilog Test Fixture created by ISE for module: PWMVersion2
 //
 // Dependencies:
 // 
@@ -22,32 +22,33 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module Test_PWM;
+module Test_PWMVersion2;
 
 	// Inputs
 	reg clk;
-	reg [21:0] Dato;
+	reg [21:0] dato;
 	reg iniciar;
 
 	// Outputs
 	wire pwm;
-	wire [21:0] contador;
+	wire [21:0] counter;
 
 	// Instantiate the Unit Under Test (UUT)
-	PWM_MarkI uut (
+	PWMVersion2 uut (
 		.clk(clk), 
-		.Dato(Dato), 
+		.dato(dato), 
 		.pwm(pwm),
-		.contador
+		.counter(counter)
 	);
 
 	integer archivo,j;
 
 	reg [21:0] Mem [0:1000];
 
+
 	initial begin
 
-	Dato=0;
+	dato=0;
 
 	clk=0;
 
@@ -59,28 +60,29 @@ module Test_PWM;
 
 	repeat(5) @(posedge clk)
 
-		iniciar=0;
-	
+	iniciar=0;
+
 	end
+
 
 	initial begin
 
-		@(negedge iniciar)
+	@(negedge iniciar)
 			for (j=0;j<1000;j=j+1)
 
 				begin
 
-					Dato=Mem[j];
+				dato=Mem[j];
 
-					repeat(22) @(posedge clk)
+				repeat(1) @(posedge clk)
 
-					$fwrite(archivo, "%\n", pwm);
+				$fwrite(archivo, "%\n", pwm);
 
-					end
+				end
 
-					$fclose(archivo);
+				$fclose(archivo);
 
-					$stop;
+				$stop;
 
 				end
 
@@ -91,4 +93,3 @@ module Test_PWM;
       
       			end
 endmodule
-
