@@ -1,11 +1,11 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
+// Company: Iron Pirate
+// Engineer: Edgar Campos Duarte
 // 
-// Create Date:    22:01:35 09/25/2015 
+// Create Date:    08:41:21 10/03/2015 
 // Design Name: 
-// Module Name:    PWM_MarkI 
+// Module Name:    PWMVersion2 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,26 +18,28 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module PWM_MarkI(
-input wire clk,
-input wire [11:0]Dato,
-output wire pwm
-    );
-	 
-reg pwm_aux;
+module PWMVersion2(clk,dato,pwm,counter);
 
-reg [11:0]contador;
+input clk;
+input [21:0] dato;
+
+output reg pwm=1;
+
+output reg [21:0] counter = 0;
 
 always @(posedge clk)
 	begin
-		contador = contador+1'd1;
-		if(contador <=Dato)
-			pwm_aux<=1;
+		if(counter<dato)
+
+			pwm<=1;
 		else
-			pwm_aux<=0;
-		////contador = contador+1'd1;
-	end
-	
-assign pwm = pwm_aux;
-	
+
+			pwm<=0;
+
+			counter<=counter+1'd1;
+
+	end 
+
+
+
 endmodule
