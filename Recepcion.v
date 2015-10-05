@@ -1,4 +1,5 @@
 `timescale 1ns / 1ps
+`include "constantes.h"
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -22,8 +23,17 @@ module ADCVersion4(
 input wire SDATA, reset ,CS,SCLK,
 output reg rx_done_tick, 
 output reg [15:0] b_reg,
-output wire [11:0]data_Out
+output wire [`ancho-1:0] data_Out
+
     );
+
+wire signo;
+
+wire [11:0] ADC_out;
+
+
+parameter N=`ancho-`resolucion;
+
 
 localparam [1:0]
 	DetectaCS = 2'b00,
@@ -99,8 +109,11 @@ always @*
 	endcase
 	
 end
-	
 
-assign data_Out = b_reg [11:0];
+assign signo= b_reg[11];
+
+assign ADC_out = {{~signo},{b_reg[10:0]}};
+
+assign data_Out = {{N{ADC_out[11]}},ADC_out,2'b0};
 
 endmodule
