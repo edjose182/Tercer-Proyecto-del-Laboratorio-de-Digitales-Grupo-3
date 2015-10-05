@@ -23,7 +23,7 @@ input wire SCLK,CS,reset,
 input wire [15:0]datos,
 output wire rx_done_tick,
 output wire [15:0] b_reg,
-output wire [11:0]data_Out
+output wire [21:0]data_Out
 
     );
 	 
