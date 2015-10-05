@@ -33,7 +33,7 @@ module TestBenchRecepcionVersion2;
 	// Outputs
 	wire rx_done_tick;
 	wire [15:0] b_reg;
-	wire [11:0] data_Out;
+	wire [21:0] data_Out;
 
 	// Instantiate the Unit Under Test (UUT)
 	Recepcion_Version2 uut (
