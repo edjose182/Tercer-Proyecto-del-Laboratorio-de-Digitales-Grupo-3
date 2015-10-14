@@ -47,7 +47,7 @@ localparam [1:0]
 	reg [15:0] b_next;
 
 /////Partes secuencial
-	always @(posedge reset,  negedge SCLK)
+	always @(posedge reset,  posedge SCLK)
 		if (reset)
 			begin
 				state_reg <= DetectaCS;
